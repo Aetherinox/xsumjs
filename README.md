@@ -28,6 +28,7 @@ xSumJS is a Node.js package which can be used for validating file checksums and 
 <br />
 
 ## Usage
+
 The following is a simple example of how to use:
 
 ```javascript
@@ -97,7 +98,8 @@ async function runValidator( args )
 <br />
 
 ## Hash Digests
-A hash digest typically contains a list of all files you wish to track in your project to the left, formatted as the path to the file relative to your project folder, and then the checksum to the right.
+
+A hash digest typically contains a list of all files you wish to track in your project. The file checksum will appear to the left, followed by a space, and then the full path to the file relative to the project's root folder to the right.
 
 <br />
 
@@ -132,6 +134,19 @@ npx prettier --write .
 <br />
 
 To run tests:
+
 ```shell
 npm run test
 ```
+
+<br />
+
+When running tests, a list of files are provided in the `test/fixtures` folder:
+
+| File                    | Description                                                        |
+| ----------------------- | ------------------------------------------------------------------ |
+| `tests-checksum.digest` | test hash digest file. all checksums are `sha256` with `64 rounds` |
+| `tests-checksum.bin`    | test binary file                                                   |
+| `tests-checksum-bad`    | test file for comparing a bad checksum                             |
+| `tests-checksum-good`   | test file for comparing a good checksum                            |
+| `tests-checksum-good`   | test file for comparing an invalid checksum                        |

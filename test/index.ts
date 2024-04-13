@@ -77,7 +77,7 @@ test('Fake file checksum doesnt match good file', async (t) => {
 
 test('Checksum file parse unsuccessful', async (t) => {
     const error = (await t.throwsAsync(
-        runTestChecksum('invalid.sha256sum', 'tests-checksum-good'),
+        runTestChecksum('tests-checksum-invalid', 'tests-checksum-good'),
         {
             instanceOf: CSErrorParse,
             message: 'Could not parse checksum file at line #1: invalid'
