@@ -20,7 +20,8 @@ jobs:
 
         steps:
             - name: "🛒 Fix Git Checkout Line Endings"
-              run: git config --global core.autocrlf input
+              run: |
+                git config --global core.autocrlf input
 
             - name: "☑️ Checkout"
               uses: actions/checkout@v4
@@ -60,10 +61,12 @@ jobs:
                   npx prettier --write .
 
             - name: "✔️ Lint"
-              run: npm run lint
+              run: | 
+                npm run lint
 
             - name: "🧰 Run Tests"
-              run: npm run coverage
+              run: |
+                npm run coverage
 
             - name: "📝 Upload Coverage Reports › Codecov"
               uses: codecov/codecov-action@v4
@@ -75,6 +78,8 @@ jobs:
                   CI_OS: ${{ matrix.os }}
                   NODE_VERSION: ${{ matrix.node-version }}
 
+            # allows for code coverage using local file
+            #
             #- name: Upload code coverage to Codecov
             #  uses: codecov/codecov-action@v3.1.4
             #  with:
