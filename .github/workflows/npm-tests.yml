@@ -1,0 +1,89 @@
+name: "🧰 NPM › Tests"
+run-name: "🧰 NPM › Tests"
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+        tags:
+            - v[0-9]+.[0-9]+.[0-9]+*
+    pull_request:
+
+jobs:
+    job-test:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [windows-latest, macOS-latest, ubuntu-latest]
+                node-version: [16.x, 18.x, 20.x]
+
+        steps:
+            - name: "🛒 Fix Git Checkout Line Endings"
+              run: git config --global core.autocrlf input
+
+            - name: "☑️ Checkout"
+              uses: actions/checkout@v4
+
+            - name: "⚙️ Setup Node"
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: "📂 Get NPM Cache Directory"
+              id: npm-cache-dir
+              run: |
+                  echo "::set-output name=dir::$(npm config get cache)"
+
+            - name: "📑 NPM cache"
+              id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
+              uses: actions/cache@v3.3.1
+              with:
+                  path: ${{ steps.npm-cache-dir.outputs.dir }}
+                  key: ${{ runner.OS }}-node-${{ hashFiles('**/package.json') }}
+                  restore-keys: |
+                      ${{ runner.OS }}-node-
+
+            - name: "📦 Install"
+              run: npm install --engine-strict
+
+            - name: "🔨 Preconfigure"
+              id: npm-preconfigure
+              run: |
+                  npm i -g prettier
+                  npm -g i eslint-cli
+                  npm i eslint --save-dev
+                  npx prettier --write .
+
+            - name: "✔️ Lint"
+              run: npm run lint
+
+            - name: "🧰 Run Tests"
+              run: npm run coverage
+
+            - name: "📝 Upload Coverage Reports › Codecov"
+              uses: codecov/codecov-action@v4
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }}
+                  slug: Aetherinox/xsumjs
+                  env_vars: CI_OS,NODE_VERSION
+              env:
+                  CI_OS: ${{ matrix.os }}
+                  NODE_VERSION: ${{ matrix.node-version }}
+
+            #- name: Upload code coverage to Codecov
+            #  uses: codecov/codecov-action@v3.1.4
+            #  with:
+            #    file: ./coverage/lcov.info
+            #    env_vars: CI_OS,NODE_VERSION
+            #  env:
+            #    CI_OS: ${{ matrix.os }}
+            #    NODE_VERSION: ${{ matrix.node-version }}
+
+    job-test-completed:
+        needs: job-test
+        runs-on: ubuntu-latest
+        steps:
+            - name: "☑️ Tests Complete"
+              run: |
+                'echo Tests passed'
