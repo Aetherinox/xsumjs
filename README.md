@@ -1,6 +1,6 @@
 # xSumJS
 
-[![Build Status](https://github.com/Aetherinox/xsumjs/workflows/CI/badge.svg)](https://github.com/Aetherinox/xsumjs/actions?query=workflow%3ACI)
+[![Build Status](https://github.com/Aetherinox/xsumjs/workflows/npm-tests.yml/badge.svg)](https://github.com/Aetherinox/xsumjs/actions/workflows/npm-tests.yml)
 [![Code Coverage](https://codecov.io/gh/Aetherinox/xsumjs/branch/main/graph/badge.svg)](https://codecov.io/gh/Aetherinox/xsumjs)
 [![NPM package](https://img.shields.io/npm/v/xsumjs)](https://npm.im/xsumjs)
 
