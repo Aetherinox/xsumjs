@@ -1,0 +1,9 @@
+*.log
+.npmrc
+.nyc_output
+coverage.lcov
+dist
+docs
+node_modules
+yarn.lock
+coverage

@@ -1,0 +1,106 @@
+{
+    "name": "xsumjs",
+    "description": "Checksum validation for files using hash digest.",
+    "version": "1.0.0",
+    "homepage": "https://github.com/Aetherinox/xsumjs",
+    "author": "Aetherinox (https://github.com/Aetherinox)",
+    "contributors": [
+        "Mark Lee (hhttps://github.com/malept)",
+        "Aetherinox (https://github.com/Aetherinox)"
+    ],
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Aetherinox/xsumjs.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Aetherinox/xsumjs/issues"
+    },
+    "license": "MIT",
+    "files": [
+        "dist"
+    ],
+    "main": "dist/index.js",
+    "engines": {
+        "node": ">= 14.19.0"
+    },
+    "scripts": {
+        "ava": "ava",
+        "build": "tsc",
+        "coverage": "nyc --reporter=lcov --reporter=text ava",
+        "docs": "typedoc src/index.ts",
+        "lint": "prettier --check . && eslint --ext .ts . && npm run lint:docs",
+        "lint:docs": "typedoc --emit none --treatWarningsAsErrors src/index.ts",
+        "pretty": "npx prettier . --write",
+        "prepare": "npm run build",
+        "test": "npm run lint && npm run ava",
+        "postinstall": "husky install"
+    },
+    "keywords": [
+        "xsum",
+        "sha256",
+        "sha512",
+        "hash",
+        "hash-digest",
+        "checksum"
+    ],
+    "dependencies": {
+        "debug": "^4.3.4"
+    },
+    "devDependencies": {
+        "@istanbuljs/nyc-config-typescript": "^1.0.1",
+        "@Aetherinox/nox-eslint-base": "^1.0.0",
+        "@types/debug": "^4.1.12",
+        "@types/node": "^20.0.0",
+        "@typescript-eslint/eslint-plugin": "^5.62.0",
+        "@typescript-eslint/parser": "^5.49.0",
+        "ava": "^5.3.1",
+        "eslint": "^8.57.0",
+        "eslint-plugin-ava": "^13.2.0",
+        "eslint-plugin-import": "^2.23.4",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-prettier": "^5.0.0",
+        "eslint-plugin-promise": "^6.0.0",
+        "eslint-plugin-tsdoc": "^0.2.5",
+        "husky": "^8.0.3",
+        "lint-staged": "^13.3.0",
+        "nyc": "^15.1.0",
+        "prettier": "^3.2.5",
+        "source-map-support": "^0.5.16",
+        "ts-node": "^10.0.0",
+        "typedoc": "^0.24.1",
+        "typedoc-plugin-rename-defaults": "^0.6.4",
+        "typescript": "~5.1.5"
+    },
+    "ava": {
+        "extensions": [
+            "ts"
+        ],
+        "require": [
+            "ts-node/register"
+        ]
+    },
+    "eslintConfig": {
+        "extends": "./node_modules/@Aetherinox/nox-eslint-base/typescript"
+    },
+    "funding": [
+        {
+            "type": "individual",
+            "url": "https://buymeacoffee.com/aetherinox"
+        }
+    ],
+    "lint-staged": {
+        "*.{json,md,yml}": "prettier --write",
+        "*.ts": [
+            "eslint --fix --ext .ts"
+        ]
+    },
+    "nyc": {
+        "extends": "@istanbuljs/nyc-config-typescript"
+    },
+    "volta": {
+        "node": "14.19.0"
+    }
+}
