@@ -50,8 +50,8 @@
         "debug": "^4.3.4"
     },
     "devDependencies": {
-        "@istanbuljs/nyc-config-typescript": "^1.0.1",
         "@aetherinox/eslint-config": "^1.0.0",
+        "@istanbuljs/nyc-config-typescript": "^1.0.1",
         "@types/debug": "^4.1.5",
         "@types/node": "^20.0.0",
         "@typescript-eslint/eslint-plugin": "^5.30.7",
