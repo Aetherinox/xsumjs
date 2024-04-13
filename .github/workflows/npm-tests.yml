@@ -32,6 +32,8 @@ jobs:
                 registry-url: 'https://registry.npmjs.org/'
                 always-auth: true
                 scope: '@aetherinox'
+              env:
+                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: "📂 Get NPM Cache Directory"
               id: npm-cache-dir
@@ -47,11 +49,7 @@ jobs:
                   restore-keys: |
                       ${{ runner.OS }}-node-
 
-            - name: "📦 Install"
-              env:
-                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-            - name: "🔨 Preconfigure"
+            - name: "🔨 Install NPM"
               id: npm-preconfigure
               run: |
                   npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
