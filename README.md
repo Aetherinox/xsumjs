@@ -1,7 +1,7 @@
 # xSumJS
 
-[![Build Status](https://github.com/Aetherinox/xsumjs/workflows/npm-tests.yml/badge.svg)](https://github.com/Aetherinox/xsumjs/actions/workflows/npm-tests.yml)
-[![Code Coverage](https://codecov.io/gh/Aetherinox/xsumjs/branch/main/graph/badge.svg)](https://codecov.io/gh/Aetherinox/xsumjs)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Aetherinox/xsumjs/npm-tests.yml?logo=github&label=Tests&color=%23de1f6f)
+![Codecov](https://img.shields.io/codecov/c/github/Aetherinox/xsumjs?token=MPAVASGIOG&logo=codecov&logoColor=FFFFFF&color=364da6)
 [![NPM package](https://img.shields.io/npm/v/xsumjs)](https://npm.im/xsumjs)
 
 xSumJS is a Node.js package which can be used for validating file checksums and comparing them against a hash digest file. Hash digests and checksums can be generated using any of the following programs:
