@@ -32,8 +32,6 @@ jobs:
                 registry-url: 'https://registry.npmjs.org/'
                 always-auth: true
                 scope: '@aetherinox'
-              env:
-                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: "📂 Get NPM Cache Directory"
               id: npm-cache-dir
@@ -49,10 +47,17 @@ jobs:
                   restore-keys: |
                       ${{ runner.OS }}-node-
 
-            - name: "🔨 Install NPM"
+            - name: "📦 NPM › Install"
+              run: |
+                npm install --engine-strict
+
+            - name: "🔨 NPM › Preconfigure"
               id: npm-preconfigure
               run: |
-                  npm ci
+                  npm i -g prettier
+                  npm i -g eslint-cli
+                  npm i eslint --save-dev
+                  npx prettier --write .
 
             - name: "✔️ Lint"
               run: npm run lint
