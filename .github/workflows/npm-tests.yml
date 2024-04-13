@@ -29,6 +29,9 @@ jobs:
               uses: actions/setup-node@v4
               with:
                 node-version: ${{ matrix.node-version }}
+                registry-url: 'https://registry.npmjs.org/'
+                always-auth: true
+                scope: '@aetherinox'
 
             - name: "📂 Get NPM Cache Directory"
               id: npm-cache-dir
@@ -45,11 +48,15 @@ jobs:
                       ${{ runner.OS }}-node-
 
             - name: "📦 Install"
-              run: npm install --engine-strict
+              run: |
+                npm install --engine-strict
+              env:
+                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: "🔨 Preconfigure"
               id: npm-preconfigure
               run: |
+                  npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
                   npm i -g prettier
                   npm -g i eslint-cli
                   npm i eslint --save-dev
