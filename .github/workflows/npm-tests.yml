@@ -48,8 +48,6 @@ jobs:
                       ${{ runner.OS }}-node-
 
             - name: "📦 Install"
-              run: |
-                npm install --engine-strict
               env:
                 NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -57,6 +55,7 @@ jobs:
               id: npm-preconfigure
               run: |
                   npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+                  npm install --engine-strict
                   npm i -g prettier
                   npm -g i eslint-cli
                   npm i eslint --save-dev
