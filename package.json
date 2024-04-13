@@ -3,10 +3,22 @@
     "description": "Checksum validation for files using hash digest.",
     "version": "1.0.0",
     "homepage": "https://github.com/Aetherinox/xsumjs",
-    "author": "Aetherinox (https://github.com/Aetherinox)",
+    "author": "Aetherinox <adminservx@proton.me>",
     "contributors": [
-        "Mark Lee (hhttps://github.com/malept)",
-        "Aetherinox (https://github.com/Aetherinox)"
+      {
+        "name": "Aetherinox",
+        "email": "adminservx@proton.me",
+        "url": "https://github.com/Aetherinox"
+      },
+      {
+        "name": "AdminServ",
+        "email": "adminservx@proton.me",
+        "url": "https://github.com/AdminServ"
+      },
+      {
+        "name": "Mark Lee",
+        "url": "https://github.com/malept"
+      }
     ],
     "publishConfig": {
         "access": "public"
