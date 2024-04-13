@@ -53,10 +53,6 @@ jobs:
               id: npm-preconfigure
               run: |
                   npm ci
-                  npm i -g prettier
-                  npm -g i eslint-cli
-                  npm i eslint --save-dev
-                  npx prettier --write .
 
             - name: "✔️ Lint"
               run: npm run lint
