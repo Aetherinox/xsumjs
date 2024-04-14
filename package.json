@@ -1,7 +1,7 @@
 {
-    "name": "xsumjs",
-    "description": "Checksum validation for files using hash digest.",
+    "name": "@aetherinox/xsumjs",
     "version": "1.0.0",
+    "description": "Checksum and hash digest validation for files.",
     "homepage": "https://github.com/Aetherinox/xsumjs",
     "author": "Aetherinox <adminservx@proton.me>",
     "contributors": [
