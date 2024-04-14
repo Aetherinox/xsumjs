@@ -55,31 +55,6 @@ class ThrowError extends Error {
 }
 
 /*
-    Validate checksum of files with a specified checksum digest.
-    Digest file can be created using xSum, cyberchef, or sha256sum.
-
-    Throws an error if file fails checksum validation.
-
-    @param  algo            : hash algorithm used in `digest`.
-                              Algorithm is dependent on the available algorithms supported by the version of OpenSSL on the platform
-
-    @param  digest          : Path to the checksum digest file.
-    @param  dirBase         : Base directory for the files specified in `files`.
-    @param  files           : One or more paths of the files that will be validated.
-                              Relative to `dirBase`.
-
-*/
-
-export default async function xsumjs(
-    algo: string,
-    digest: string,
-    dirBase: string,
-    files: string[] | string
-): Promise<void> {
-    return new CSVerify(algo, digest).validate(dirBase, files);
-}
-
-/*
     Throw error if any file does not match specified checksum
     @param file     : A path to a file that did not match.
 
@@ -230,4 +205,29 @@ export class CSVerify {
     async verifyFiles(dirBase: string, files: string[]): Promise<void[]> {
         return Promise.all(files.map((file) => this.verifyFile(dirBase, file)));
     }
+}
+
+/*
+    Validate checksum of files with a specified checksum digest.
+    Digest file can be created using xSum, cyberchef, or sha256sum.
+
+    Throws an error if file fails checksum validation.
+
+    @param  algo            : hash algorithm used in `digest`.
+                              Algorithm is dependent on the available algorithms supported by the version of OpenSSL on the platform
+
+    @param  digest          : Path to the checksum digest file.
+    @param  dirBase         : Base directory for the files specified in `files`.
+    @param  files           : One or more paths of the files that will be validated.
+                              Relative to `dirBase`.
+
+*/
+
+export default async function xsumjs(
+    algo: string,
+    digest: string,
+    dirBase: string,
+    files: string[] | string
+): Promise<void> {
+    return new CSVerify(algo, digest).validate(dirBase, files);
 }
