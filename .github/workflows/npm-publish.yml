@@ -22,8 +22,9 @@ jobs:
         #   Job > Initialize > Checkout
         # ---------------------------------------------------------------------------------------
 
-        - name: "☑️ Checkout"
-          uses: actions/checkout@v4
+            - name: "☑️ Checkout"
+              id: task-initialize-checkout
+              uses: actions/checkout@v4
 
     # ---------------------------------------------------------------------------------------
     #   Job > Publish > NPMJS
@@ -38,38 +39,38 @@ jobs:
             packages: write
         steps:
 
-        # ---------------------------------------------------------------------------------------
-        #   Job > Publish > Npmjs > Checkout
-        # ---------------------------------------------------------------------------------------
+            # ---------------------------------------------------------------------------------------
+            #   Job > Publish > Npmjs > Checkout
+            # ---------------------------------------------------------------------------------------
 
-        - name: "☑️ Checkout"
-          id: publish-npmjs-checkout
-          uses: actions/checkout@v4
+            - name: "☑️ Checkout"
+              id: task_npmjs_checkout
+              uses: actions/checkout@v4
 
-        # ---------------------------------------------------------------------------------------
-        #   Job > Publish > Npmjs > Setup Node
-        # ---------------------------------------------------------------------------------------
+            # ---------------------------------------------------------------------------------------
+            #   Job > Publish > Npmjs > Setup Node
+            # ---------------------------------------------------------------------------------------
 
-        - name: "⚙️ Setup Node"
-          id: publish-npmjs-node-setup
-          uses: actions/setup-node@v4
-          with:
-            node-version: '20.x'
-            registry-url: 'https://registry.npmjs.org/'
-            always-auth: true
-            scope: '@aetherinox'
+            - name: "⚙️ Setup Node"
+              id: task_npmjs_node_setup
+              uses: actions/setup-node@v4
+              with:
+                node-version: '20.x'
+                registry-url: 'https://registry.npmjs.org/'
+                always-auth: true
+                scope: '@aetherinox'
 
-        # ---------------------------------------------------------------------------------------
-        #   Job > Publish > Npmjs > NPM Actions
-        # ---------------------------------------------------------------------------------------
+            # ---------------------------------------------------------------------------------------
+            #   Job > Publish > Npmjs > NPM Actions
+            # ---------------------------------------------------------------------------------------
 
-        - name: "📦 NPM Actions"
-          id: publish-npmjs-node-actions
-          run: |
-            npm ci
-            npm publish
-          env:
-            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+            - name: "📦 NPM Actions"
+              id: task_npmjs_node_actions
+              run: |
+                npm ci
+                npm publish
+              env:
+                NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     # ---------------------------------------------------------------------------------------
     #   Job > Publish > Github
@@ -84,34 +85,34 @@ jobs:
             packages: write
         steps:
 
-        # ---------------------------------------------------------------------------------------
-        #   Job > Publish > Github > Checkout
-        # ---------------------------------------------------------------------------------------
+            # ---------------------------------------------------------------------------------------
+            #   Job > Publish > Github > Checkout
+            # ---------------------------------------------------------------------------------------
 
-        - name: "☑️ Checkout"
-          id: publish-ghnpm-checkout
-          uses: actions/checkout@v4
+            - name: "☑️ Checkout"
+              id: task_ghnpm_checkout
+              uses: actions/checkout@v4
 
-        # ---------------------------------------------------------------------------------------
-        #   Job > Publish > Github > Setup Node
-        # ---------------------------------------------------------------------------------------
+            # ---------------------------------------------------------------------------------------
+            #   Job > Publish > Github > Setup Node
+            # ---------------------------------------------------------------------------------------
 
-        - name: "⚙️ Setup Node"
-          id: publish-ghnpm-node-setup
-          uses: actions/setup-node@v4
-          with:
-            node-version: '20.x'
-            registry-url: https://npm.pkg.github.com/
-            scope: '@aetherinox'
+            - name: "⚙️ Setup Node"
+              id: task_ghnpm_node_setup
+              uses: actions/setup-node@v4
+              with:
+                node-version: '20.x'
+                registry-url: https://npm.pkg.github.com/
+                scope: '@aetherinox'
 
-        # ---------------------------------------------------------------------------------------
-        #   Job > Publish > Github > NPM Actions
-        # ---------------------------------------------------------------------------------------
+            # ---------------------------------------------------------------------------------------
+            #   Job > Publish > Github > NPM Actions
+            # ---------------------------------------------------------------------------------------
 
-        - name: "📦 NPM Actions"
-          id: publish-ghnpm-node-actions
-          run: |
-            npm ci
-            npm publish
-          env:
-            NODE_AUTH_TOKEN: ${{ secrets.SELF_TOKEN_CL }}
+            - name: "📦 NPM Actions"
+              id: task_ghnpm_node_actions
+              run: |
+                npm ci
+                npm publish
+              env:
+                NODE_AUTH_TOKEN: ${{ secrets.SELF_TOKEN_CL }}

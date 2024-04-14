@@ -11,22 +11,43 @@ on:
     pull_request:
 
 jobs:
-    job-test:
+
+    # ---------------------------------------------------------------------------------------
+    #   JOB > TESTS > RUN
+    # ---------------------------------------------------------------------------------------
+
+    job-tests-run:
+        name: "📦 Tests › Run"
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
                 os: [windows-latest, macOS-latest, ubuntu-latest]
                 node-version: [16.x, 18.x, 20.x]
-
         steps:
+
+            # ---------------------------------------------------------------------------------------
+            #   Job > Tests > Fix Line Endings
+            # ---------------------------------------------------------------------------------------
+
             - name: "🛒 Fix Git Checkout Line Endings"
+              id: task_tests_git-fixlines
               run: |
                 git config --global core.autocrlf input
 
+            # ---------------------------------------------------------------------------------------
+            #   Job > Tests > Checkout
+            # ---------------------------------------------------------------------------------------
+
             - name: "☑️ Checkout"
+              id: task_tests_run_checkout
               uses: actions/checkout@v4
 
+            # ---------------------------------------------------------------------------------------
+            #   Job > Tests > Setup Node
+            # ---------------------------------------------------------------------------------------
+
             - name: "⚙️ Setup Node"
+              id: task_tests_node_setup
               uses: actions/setup-node@v4
               with:
                 node-version: ${{ matrix.node-version }}
@@ -34,41 +55,73 @@ jobs:
                 always-auth: true
                 scope: '@aetherinox'
 
+            # ---------------------------------------------------------------------------------------
+            #   Job > Tests > Get NPM Cache Directory
+            # ---------------------------------------------------------------------------------------
+
             - name: "📂 Get NPM Cache Directory"
-              id: npm-cache-dir
+              id: task_tests_npm_cache_dir_get
               run: |
                   echo "::set-output name=dir::$(npm config get cache)"
 
+            # ---------------------------------------------------------------------------------------
+            #   Job > Tests > NPM Cache
+            # ---------------------------------------------------------------------------------------
+
             - name: "📑 NPM cache"
-              id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
-              uses: actions/cache@v3.3.1
+              id: task_tests_npm_cache_dir_run # use this to check for `cache-hit` ==> if: steps.task_tests_npm_cache_dir_run.outputs.cache-hit != 'true'
+              uses: actions/cache@v4
               with:
-                  path: ${{ steps.npm-cache-dir.outputs.dir }}
+                  path: ${{ steps.task_tests_npm_cache_dir_get.outputs.dir }}
                   key: ${{ runner.OS }}-node-${{ hashFiles('**/package.json') }}
                   restore-keys: |
                       ${{ runner.OS }}-node-
 
+            # ---------------------------------------------------------------------------------------
+            #   Job > Tests > NPM Install
+            # ---------------------------------------------------------------------------------------
+
             - name: "📦 NPM › Install"
+              id: task_tests_npm_install
               run: |
                 npm install --engine-strict
 
+            # ---------------------------------------------------------------------------------------
+            #   Job > Tests > NPM Preconfigure
+            # ---------------------------------------------------------------------------------------
+
             - name: "🔨 NPM › Preconfigure"
-              id: npm-preconfigure
+              id: task_tests_npm_preconfigure
               run: |
                   npm i -g prettier
                   npm i -g eslint-cli
                   npm i eslint --save-dev
                   npx prettier --write .
 
+            # ---------------------------------------------------------------------------------------
+            #   Job > Tests > NPM Lint
+            # ---------------------------------------------------------------------------------------
+
             - name: "✔️ Lint"
+              id: task_tests_npm_lint
               run: | 
                 npm run lint
 
+            # ---------------------------------------------------------------------------------------
+            #   Job > Tests > NPM Tests
+            # ---------------------------------------------------------------------------------------
+
             - name: "🧰 Run Tests"
+              id: task_tests_npm_coverage
               run: |
                 npm run coverage
 
+            # ---------------------------------------------------------------------------------------
+            #   Job > Tests > Upload Coverage to Codecov
+            # ---------------------------------------------------------------------------------------
+
             - name: "📝 Upload Coverage Reports › Codecov"
+              id: task_tests_codecov_upload
               uses: codecov/codecov-action@v4
               with:
                   token: ${{ secrets.CODECOV_TOKEN }}
@@ -89,10 +142,16 @@ jobs:
             #    CI_OS: ${{ matrix.os }}
             #    NODE_VERSION: ${{ matrix.node-version }}
 
-    job-test-completed:
-        needs: job-test
+    # ---------------------------------------------------------------------------------------
+    #   JOB > TESTS > COMPLETE
+    # ---------------------------------------------------------------------------------------
+
+    job-tests-complete:
+        name: "📦 Tests › Complete"
+        needs: job-tests-run
         runs-on: ubuntu-latest
         steps:
             - name: "☑️ Tests Complete"
+              id: task_tests_complete
               run: |
                 echo 'Tests passed'
