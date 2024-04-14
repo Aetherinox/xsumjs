@@ -13,106 +13,37 @@ jobs:
     job-initialize:
         name: "📦 Publish › Initialize"
         runs-on: ubuntu-latest
+        outputs:
+          package_version: ${{ steps.task_initialize_package_version.outputs.current-version }}
         permissions:
             contents: read
             packages: write
         steps:
 
-        # ---------------------------------------------------------------------------------------
-        #   Job > Initialize > Checkout
-        # ---------------------------------------------------------------------------------------
-
-            - name: "☑️ Checkout"
-              id: task-initialize-checkout
-              uses: actions/checkout@v4
-
-    # ---------------------------------------------------------------------------------------
-    #   Job > Publish > NPMJS
-    # ---------------------------------------------------------------------------------------
-
-    job-publish-npm:
-        name: "📦 Publish › NPM"
-        needs: job-initialize
-        runs-on: ubuntu-latest
-        permissions:
-            contents: read
-            packages: write
-        steps:
+            - name: "✅ Start"
+              id: task_initialize_start
+              run: | 
+                    echo "Starting build"
 
             # ---------------------------------------------------------------------------------------
-            #   Job > Publish > Npmjs > Checkout
+            #   Job > Initialize > Checkout
             # ---------------------------------------------------------------------------------------
 
             - name: "☑️ Checkout"
-              id: task_npmjs_checkout
+              id: task_initialize_checkout
               uses: actions/checkout@v4
-
-            # ---------------------------------------------------------------------------------------
-            #   Job > Publish > Npmjs > Setup Node
-            # ---------------------------------------------------------------------------------------
-
-            - name: "⚙️ Setup Node"
-              id: task_npmjs_node_setup
-              uses: actions/setup-node@v4
               with:
-                node-version: '20.x'
-                registry-url: 'https://registry.npmjs.org/'
-                always-auth: true
-                scope: '@aetherinox'
+                fetch-depth: 0
 
             # ---------------------------------------------------------------------------------------
-            #   Job > Publish > Npmjs > NPM Actions
+            #   Job > Initialize > Get NPM Version
             # ---------------------------------------------------------------------------------------
 
-            - name: "📦 NPM Actions"
-              id: task_npmjs_node_actions
+            - name: get-npm-version
+              id: task_initialize_package_version
+              uses: martinbeentjes/npm-get-version-action@v1.3.1
+
+            - name: "Show Current Version of NPM"
+              id: task_initialize_package_version_debug
               run: |
-                npm ci
-                npm publish
-              env:
-                NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-    # ---------------------------------------------------------------------------------------
-    #   Job > Publish > Github
-    # ---------------------------------------------------------------------------------------
-
-    job-publish-ghnpm:
-        name: "📦 Publish › Github NPM"
-        needs: job-initialize
-        runs-on: ubuntu-latest
-        permissions:
-            contents: read
-            packages: write
-        steps:
-
-            # ---------------------------------------------------------------------------------------
-            #   Job > Publish > Github > Checkout
-            # ---------------------------------------------------------------------------------------
-
-            - name: "☑️ Checkout"
-              id: task_ghnpm_checkout
-              uses: actions/checkout@v4
-
-            # ---------------------------------------------------------------------------------------
-            #   Job > Publish > Github > Setup Node
-            # ---------------------------------------------------------------------------------------
-
-            - name: "⚙️ Setup Node"
-              id: task_ghnpm_node_setup
-              uses: actions/setup-node@v4
-              with:
-                node-version: '20.x'
-                registry-url: https://npm.pkg.github.com/
-                scope: '@aetherinox'
-
-            # ---------------------------------------------------------------------------------------
-            #   Job > Publish > Github > NPM Actions
-            # ---------------------------------------------------------------------------------------
-
-            - name: "📦 NPM Actions"
-              id: task_ghnpm_node_actions
-              run: |
-                npm ci
-                npm publish
-              env:
-                NODE_AUTH_TOKEN: ${{ secrets.SELF_TOKEN_CL }}
+                echo ${{ steps.task_initialize_package_version.outputs.current-version}}
