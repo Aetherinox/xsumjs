@@ -47,3 +47,16 @@ jobs:
               id: task_initialize_package_version_debug
               run: |
                 echo ${{ steps.task_initialize_package_version.outputs.current-version}}
+
+            # ---------------------------------------------------------------------------------------
+            #   Get version from package.json VERSION value
+            # ---------------------------------------------------------------------------------------
+
+            - name: Get Package Version
+              id: get_package_version
+              run: echo "PACKAGE_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
+
+            - name: "🪪 .ENV › Read"
+              id: dotenv-output
+              run: |
+                echo "VERSION: ${{ env.PACKAGE_VERSION }}"
